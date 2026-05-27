@@ -1,0 +1,62 @@
+# ==============================================================================
+# BUSIFY - .gitignore
+# ==============================================================================
+
+# Python - Archivos compilados y caché
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Entornos virtuales (uv, venv, virtualenv)
+.venv/
+venv/
+ENV/
+env/
+ENV/
+
+# Seguridad y Configuración Local (¡CRÍTICO!)
+# Nunca subas tus contraseñas de la base de datos ni la SECRET_KEY
+.env
+.env.*
+!.env.example
+*.bak
+*.conf
+
+# Django - Archivos estáticos y subidas de usuarios
+staticfiles/
+media/
+/static/
+
+# Bases de datos locales (por si acaso usas SQLite en pruebas)
+*.sqlite3
+*.db
+
+# Editores de código e IDEs (VS Code, Cursor, PyCharm)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
