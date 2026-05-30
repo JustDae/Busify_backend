@@ -3,11 +3,11 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import SearchFilter, OrderingFilter 
 from django_filters.rest_framework import DjangoFilterBackend
-
 from transit.models import Viaje
 from transit.serializers.viaje import ViajeSerializer
+from transit.filters import ViajeFilter 
 from transit.pagination import StandardPagination
 
 
@@ -15,8 +15,11 @@ class ViajeViewSet(viewsets.ModelViewSet):
     serializer_class   = ViajeSerializer
     permission_classes = [IsAuthenticated]
     pagination_class   = StandardPagination
-    filter_backends    = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields   = ['status', 'ruta', 'bus', 'chofer']
+    
+    filter_backends    = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class    = ViajeFilter 
+
+    search_fields      = ['status', 'ruta__name', 'bus__plate', 'chofer__last_name']
     ordering_fields    = ['departure_time', 'passenger_count']
     ordering           = ['-departure_time']
     http_method_names  = ['get', 'post', 'patch', 'delete', 'head', 'options']
@@ -45,7 +48,6 @@ class ViajeViewSet(viewsets.ModelViewSet):
                 {'error': 'Quantity must be a positive integer.'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         if viaje.passenger_count + quantity > viaje.bus.capacity:
             return Response(
                 {'error': f'Insufficient capacity: only {viaje.bus.capacity - viaje.passenger_count} seats available.'},

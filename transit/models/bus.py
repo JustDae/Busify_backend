@@ -1,10 +1,11 @@
+# transit/models/bus.py
 from django.db import models
 
 class Bus(models.Model):
     STATUS_CHOICES = [
-        ('activo',        'Activo'),
-        ('mantenimiento', 'Mantenimiento'),
-        ('inactivo',      'Inactivo'),
+        ('active',        'Activo'),
+        ('maintenance',   'Mantenimiento'),
+        ('inactive',      'Inactivo'),
     ]
 
     unit_number = models.CharField(max_length=10, unique=True)

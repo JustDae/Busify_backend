@@ -7,11 +7,11 @@ from .chofer import Chofer
 
 class Viaje(models.Model):
     STATUS_CHOICES = [
-        ('programado', 'Programado'),
-        ('en_ruta',    'En Ruta'),
-        ('completado', 'Completado'),
-        ('retrasado',  'Retrasado'),
-        ('cancelado',  'Cancelado'),
+        ('scheduled', 'Programado'),
+        ('en_route',  'En Ruta'),
+        ('completed', 'Completado'),
+        ('delayed',   'Retrasado'),
+        ('cancelled', 'Cancelado'),
     ]
 
     status            = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
