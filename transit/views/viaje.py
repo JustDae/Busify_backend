@@ -128,5 +128,15 @@ class ViajeViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        try:
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {
+                    'error_interno_python': str(e),
+                    'clase_error': e.__class__.__name__
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
