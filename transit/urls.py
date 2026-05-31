@@ -29,5 +29,8 @@ urlpatterns = [
     path('auth/token/refresh/', TokenRefreshView.as_view()),
     path('auth/token/verify/',  TokenVerifyView.as_view()),
     path('auth/logout/',        LogoutView.as_view()),
+    
+    path('transit/viajes/despacho/', ViajeViewSet.as_view({'post': 'crear_despacho'})),
+    
     path('', include(router.urls)),
 ]
