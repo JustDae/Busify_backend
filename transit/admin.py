@@ -12,10 +12,10 @@ class CooperativaAdmin(admin.ModelAdmin):
 
 @admin.register(Ruta)
 class RutaAdmin(admin.ModelAdmin):
-    list_display  = ['id', 'name', 'cooperativa', 'origin', 'destination', 'base_fare', 'is_active', 'created_at']
+    list_display  = ['id', 'name', 'cooperativa', 'origin', 'destination', 'base_fare', 'max_capacidad_buses', 'is_active', 'created_at']
     list_filter   = ['is_active', 'cooperativa']
     search_fields = ['name', 'origin', 'destination']
-    list_editable = ['cooperativa', 'is_active']
+    list_editable = ['cooperativa', 'max_capacidad_buses', 'is_active']
 
 
 @admin.register(Parada)
