@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter 
 from django_filters.rest_framework import DjangoFilterBackend
-from transit.models import Viaje
+from transit.models import Viaje, Bus, Chofer
 from transit.serializers.viaje import ViajeSerializer
 from transit.filters import ViajeFilter 
 from transit.pagination import StandardPagination
@@ -114,7 +114,19 @@ class ViajeViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], url_path='despacho')
     def crear_despacho(self, request):
-        serializer = self.get_serializer(data=request.data)
+        data = request.data.copy()
+        
+        if 'bus' not in data or not data['bus']:
+            primer_bus = Bus.objects.first()
+            if primer_bus:
+                data['bus'] = primer_bus.id
+                
+        if 'chofer' not in data or not data['chofer']:
+            primer_chofer = Chofer.objects.first()
+            if primer_chofer:
+                data['chofer'] = primer_chofer.id
+
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
