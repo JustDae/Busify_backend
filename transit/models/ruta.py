@@ -1,7 +1,15 @@
 from django.db import models
+from transit.models.cooperativa import Cooperativa
 
 
 class Ruta(models.Model):
+    cooperativa = models.ForeignKey(
+        Cooperativa,
+        on_delete=models.SET_NULL,
+        related_name='rutas',
+        null=True,
+        blank=True
+    )
     name        = models.CharField(max_length=200)
     description = models.TextField(blank=True, default='')
     origin      = models.CharField(max_length=100)
