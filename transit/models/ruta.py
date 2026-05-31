@@ -1,4 +1,3 @@
-# transit/models/ruta.py
 from django.db import models
 
 

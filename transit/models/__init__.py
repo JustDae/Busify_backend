@@ -4,3 +4,4 @@ from .parada import Parada
 from .chofer import Chofer
 from .bus import Bus, MaintenanceRecord
 from .viaje import Viaje
+from .cooperativa import Cooperativa

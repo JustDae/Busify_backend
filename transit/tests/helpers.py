@@ -1,4 +1,3 @@
-# transit/tests/helpers.py
 import random
 from datetime import timedelta
 from django.utils import timezone
@@ -6,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from transit.models import Bus, Chofer, Ruta, Viaje
+from transit.models import Bus, Chofer, Ruta, Viaje, Cooperativa
 
 
 def create_user(username='user', email=None, password='Pass1234!', **kwargs):
@@ -33,6 +32,14 @@ def auth_client(user):
     access, _ = get_tokens(user)
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {access}')
     return client
+
+
+def create_cooperativa(name=None, is_active=True):
+    if name is None:
+        name = f"Cooperativa-{random.randint(100, 999)}"
+    return Cooperativa.objects.create(
+        name=name, is_active=is_active
+    )
 
 
 def create_ruta(name=None, origin='Quito', destination='Guayaquil', base_fare=15.00, is_active=True):

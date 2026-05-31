@@ -7,3 +7,4 @@ from .viaje import ViajeViewSet
 from .bus import BusViewSet
 from .chofer import ChoferViewSet
 from .user import UserViewSet
+from .cooperativa import CooperativaViewSet

@@ -1,6 +1,13 @@
-# transit/filters.py
 import django_filters
-from transit.models import Ruta, Parada, Viaje
+from transit.models import Ruta, Parada, Viaje, Cooperativa
+
+
+class CooperativaFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model  = Cooperativa
+        fields = ['is_active']
 
 
 class RutaFilter(django_filters.FilterSet):

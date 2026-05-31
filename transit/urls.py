@@ -1,4 +1,3 @@
-# transit/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
@@ -11,15 +10,17 @@ from transit.views.parada      import ParadaViewSet
 from transit.views.viaje       import ViajeViewSet
 from transit.views.bus         import BusViewSet
 from transit.views.chofer      import ChoferViewSet
+from transit.views.cooperativa import CooperativaViewSet
 from transit.serializers.auth  import CustomTokenView
 
 router = DefaultRouter()
-router.register('users',       UserViewSet,     basename='user')
-router.register('buses',       BusViewSet,      basename='bus')
-router.register('choferes',    ChoferViewSet,   basename='chofer')
-router.register('rutas',       RutaViewSet,     basename='ruta')
-router.register('paradas',     ParadaViewSet,   basename='parada')
-router.register('viajes',      ViajeViewSet,    basename='viaje')
+router.register('users',        UserViewSet,        basename='user')
+router.register('buses',        BusViewSet,         basename='bus')
+router.register('choferes',    ChoferViewSet,     basename='chofer')
+router.register('cooperativas', CooperativaViewSet, basename='cooperativa')
+router.register('rutas',        RutaViewSet,        basename='ruta')
+router.register('paradas',     ParadaViewSet,     basename='parada')
+router.register('viajes',       ViajeViewSet,       basename='viaje')
 
 urlpatterns = [
     path('health/',             health_check),
