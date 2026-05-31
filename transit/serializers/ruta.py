@@ -25,13 +25,13 @@ class RutaSerializer(serializers.ModelSerializer):
     def get_total_buses(self, obj):
         return Viaje.objects.filter(
             ruta=obj, 
-            status__in=['En Ruta', 'en_ruta', 'en-ruta', 'EN_RUTA']
+            status__in=['En Ruta', 'en_ruta', 'en-ruta', 'EN_RUTA', 'en_route']
         ).count()
 
     def get_has_buses_activos(self, obj):
         return Viaje.objects.filter(
             ruta=obj, 
-            status__in=['En Ruta', 'en_ruta', 'en-ruta', 'EN_RUTA']
+            status__in=['En Ruta', 'en_ruta', 'en-ruta', 'EN_RUTA', 'en_route']
         ).exists()
 
     def validate_name(self, value):
