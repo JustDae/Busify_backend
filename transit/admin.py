@@ -12,8 +12,8 @@ class CooperativaAdmin(admin.ModelAdmin):
 
 @admin.register(Ruta)
 class RutaAdmin(admin.ModelAdmin):
-    list_display  = ['id', 'name', 'origin', 'destination', 'base_fare', 'is_active', 'created_at']
-    list_filter   = ['is_active']
+    list_display  = ['id', 'name', 'cooperativa', 'origin', 'destination', 'base_fare', 'is_active', 'created_at']
+    list_filter   = ['is_active', 'cooperativa']
     search_fields = ['name', 'origin', 'destination']
 
 
