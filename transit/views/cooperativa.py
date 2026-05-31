@@ -4,15 +4,14 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import Avg, Max, Min, Sum, Count 
-from transit.models import Cooperativa
+from transit.models import Cooperativa, Ruta
 from transit.serializers.cooperativa import CooperativaSerializer
 from transit.permissions import IsStaffOrReadOnly
 from transit.pagination import StandardPagination
 
 class CooperativaViewSet(viewsets.ModelViewSet):
 
-    queryset           = Cooperativa.objects.prefetch_related('rutas').all()
+    queryset           = Cooperativa.objects.all()
     serializer_class   = CooperativaSerializer
     permission_classes = [IsStaffOrReadOnly]
     pagination_class   = StandardPagination
@@ -79,20 +78,17 @@ class CooperativaViewSet(viewsets.ModelViewSet):
     def stats(self, request):
         qs      = Cooperativa.objects.all()
         active  = qs.filter(is_active=True)
-        data    = active.aggregate(
-            total_active   = Count('id'),
-        )
         
-        data['total_inactive'] = qs.filter(is_active=False).count()
+        data = {
+            'total_active': active.count(),
+            'total_inactive': qs.filter(is_active=False).count(),
+            'avg_rutas_per_coop': 0.0,
+            'max_rutas_in_a_coop': 0,
+            'min_rutas_in_a_coop': 0
+        }
         
-        rutas_counts = [coop.total_rutas for coop in active]
-        if rutas_counts:
-            data['avg_rutas_per_coop'] = round(sum(rutas_counts) / len(rutas_counts), 2)
-            data['max_rutas_in_a_coop'] = max(rutas_counts)
-            data['min_rutas_in_a_coop'] = min(rutas_counts)
-        else:
-            data['avg_rutas_per_coop'] = 0.0
-            data['max_rutas_in_a_coop'] = 0
-            data['min_rutas_in_a_coop'] = 0
-
+        total_rutas = Ruta.objects.filter(is_active=True).count()
+        if active.exists():
+            data['avg_rutas_per_coop'] = round(total_rutas / active.count(), 2)
+            
         return Response(data)

@@ -1,4 +1,3 @@
-# transit/serializers/ruta.py
 from rest_framework import serializers
 from transit.models import Ruta
 

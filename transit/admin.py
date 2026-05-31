@@ -1,9 +1,13 @@
 from django.contrib import admin
+from transit.models import Ruta, Parada, Chofer, Bus, MaintenanceRecord, Viaje, Cooperativa
 
-# Register your models here.
-# transit/admin.py
-from django.contrib import admin
-from transit.models import Ruta, Parada, Chofer, Bus, MaintenanceRecord, Viaje
+
+@admin.register(Cooperativa)
+class CooperativaAdmin(admin.ModelAdmin):
+    list_display  = ['id', 'name', 'is_active', 'created_at']
+    list_filter   = ['is_active']
+    search_fields = ['name']
+    list_editable = ['is_active']
 
 
 @admin.register(Ruta)
