@@ -112,7 +112,7 @@ class ViajeViewSet(viewsets.ModelViewSet):
             'by_status':        by_status,
         })
 
-    @action(detail=False, methods=['post'], url_path='crear-despacho')
+    @action(detail=False, methods=['post'], url_path='despacho')
     def crear_despacho(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
