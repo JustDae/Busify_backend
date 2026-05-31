@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from transit.models import Ruta
-
+from transit.models import Ruta, Viaje  
 
 class RutaSerializer(serializers.ModelSerializer):
     total_paradas = serializers.SerializerMethodField()
@@ -21,7 +20,7 @@ class RutaSerializer(serializers.ModelSerializer):
         return obj.paradas.filter(is_active=True).count()
 
     def get_active_buses(self, obj):
-        return obj.viaje_set.filter(status__iexact='En Ruta').count()
+        return Viaje.objects.filter(ruta=obj, status__iexact='En Ruta').count()
 
     def validate_name(self, value):
         qs = Ruta.objects.filter(name__iexact=value)
