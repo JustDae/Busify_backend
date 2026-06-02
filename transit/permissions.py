@@ -8,7 +8,6 @@ class IsStaffOrReadOnly(BasePermission):
             return bool(request.user and request.user.is_authenticated)
         return bool(request.user and request.user.is_staff)
 
-
 class IsOwnerOrStaff(BasePermission):
     def has_object_permission(self, request, view, obj):
         user_owner = getattr(obj, 'user', None)
