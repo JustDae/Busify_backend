@@ -1,0 +1,973 @@
+{
+  "info": {
+    "_postman_id": "591f59a7-0de0-486d-8b13-cec8043c6ea8",
+    "name": "Busify API",
+    "description": "Colección completa de endpoints para el sistema de transporte Busify (Seminario de Integración).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49981888",
+    "_collection_link": "https://go.postman.co/collection/49981888-591f59a7-0de0-486d-8b13-cec8043c6ea8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/health/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "health",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "if (pm.response.code === 200) {\r",
+                  "    var respuesta = pm.response.json();\r",
+                  "    \r",
+                  "    pm.environment.set(\"access_token\", respuesta.access);\r",
+                  "    \r",
+                  "    console.log(\"¡access_token guardado en busify_env!\");\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"dae\",\n    \"password\": \"admin123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/auth/login/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "auth",
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register User",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"admindae\",\n    \"email\": \"dae1@admin.com\",\n    \"password\": \"pass4567\",\n    \"password2\": \"pass4567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/auth/register/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "auth",
+                "register",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Token Refresh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/auth/token/refresh/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "auth",
+                "token",
+                "refresh",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refresh\": \"pega_el_refresh_token_aqui\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/auth/logout/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "auth",
+                "logout",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rutas",
+      "item": [
+        {
+          "name": "Listar Rutas",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/rutas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "rutas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Ruta",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Troncal Central Sur\",\n    \"description\": \"Ruta principal desde El Recreo hasta La Marín\",\n    \"origin\": \"Terminal Sur El Recreo\",\n    \"destination\": \"Estación Marín Central\",\n    \"base_fare\": \"0.35\",\n    \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/rutas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "rutas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Estadísticas de Rutas",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/rutas/stats/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "rutas",
+                "stats",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Paradas de una Ruta",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/rutas/1/paradas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "rutas",
+                "1",
+                "paradas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Paradas",
+      "item": [
+        {
+          "name": "Listar Paradas",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/paradas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "paradas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Parada",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Parada Villa Flora\",\n    \"description\": \"Frente al centro comercial\",\n    \"distance\": 2.40,\n    \"sequence\": 1,\n    \"is_active\": true,\n    \"ruta_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/paradas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "paradas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Secuencia",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"sequence\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/paradas/1/update-sequence/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "paradas",
+                "1",
+                "update-sequence",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Estadísticas de Paradas",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/paradas/stats/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "paradas",
+                "stats",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ListarParadas",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/paradas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "paradas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Buses",
+      "item": [
+        {
+          "name": "Listar Buses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/buses/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "buses",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Bus",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"unit_number\": \"C-045\",\n    \"plate\": \"PCQ-7894\",\n    \"model\": \"Mercedes-Benz Marcopolo\",\n    \"capacity\": 45,\n    \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/buses/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "buses",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Choferes",
+      "item": [
+        {
+          "name": "Listar Choferes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/choferes/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "choferes",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Chofer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"first_name\": \"Carlos\",\n    \"last_name\": \"Andrade\",\n    \"license_number\": \"1725896341\",\n    \"daily_rate\": \"45.00\",\n    \"trips_completed\": 12,\n    \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/choferes/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "choferes",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Viajes",
+      "item": [
+        {
+          "name": "Listar Viajes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/viajes/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "viajes",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Viaje",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ruta\": 1,\n    \"bus\": 1,\n    \"chofer\": 1,\n    \"status\": \"scheduled\",\n    \"departure_time\": \"2026-06-01T08:00:00Z\",\n    \"estimated_arrival\": \"2026-06-01T09:30:00Z\",\n    \"passenger_count\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/viajes",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "viajes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Agregar Pasajero",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"quantity\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/viajes/1/add-passenger/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "viajes",
+                "1",
+                "add-passenger",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Iniciar Ruta",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/viajes/1/start-route/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "viajes",
+                "1",
+                "start-route",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Estadísticas de Viajes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/viajes/stats/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "viajes",
+                "stats",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Profile",
+      "item": [
+        {
+          "name": "Get/Update Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/users/profile/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "users",
+                "profile",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"current_password\": \"segura1234\",\n    \"new_password\": \"nuevaSegura2026\",\n    \"new_password2\": \"nuevaSegura2026\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/users/change-password/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "users",
+                "change-password",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cooperativa",
+      "item": [
+        {
+          "name": "Listar Cooperativas",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{busify_api}}/cooperativas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "cooperativas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear cooperativa",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Cooperativa Transportes Universal\",\r\n  \"is_active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{busify_api}}/cooperativas/",
+              "host": [
+                "{{busify_api}}"
+              ],
+              "path": [
+                "cooperativas",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "busify_api",
+      "value": "https://busify.daelabs.tech/api",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

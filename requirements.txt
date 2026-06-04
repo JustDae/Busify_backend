@@ -1,0 +1,19 @@
+# Core dependencies
+django>=6.0.5
+djangorestframework>=3.17.1
+djangorestframework-simplejwt>=5.5.1
+
+# Database
+psycopg2-binary>=2.9.12
+
+# Utilities
+django-cors-headers>=4.9.0
+django-filter>=25.2
+python-decouple>=3.8
+
+# Development dependencies
+pytest>=8.0.0
+pytest-django>=4.8.0
+black>=24.0.0
+flake8>=7.0.0
+isort>=5.13.0

@@ -33,6 +33,27 @@ class ViajeWorkflowTests(TestCase):
         )
         self.assertEqual(viaje_obj.status, 'scheduled')
 
+    def test_create_viaje_from_api(self):
+        bus = create_bus(status='active')
+        chofer = create_chofer()
+        ruta = create_ruta()
+        now = timezone.now()
+        future = now + timedelta(hours=2)
+
+        resp = self.client.post('/api/viajes/', {
+            'bus': bus.id,
+            'chofer': chofer.id,
+            'ruta': ruta.id,
+            'status': 'scheduled',
+            'departure_time': now.isoformat(),
+            'estimated_arrival': future.isoformat(),
+            'passenger_count': 0,
+        }, format='json')
+
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED, resp.data)
+        self.assertEqual(resp.data['status'], 'scheduled')
+        self.assertEqual(resp.data['bus'], bus.id)
+
     def test_custom_action_start_route(self):
         resp = self.client.post(f'/api/viajes/{self.viaje.id}/start-route/', {})
         self.assertIn(resp.status_code, [status.HTTP_200_OK, status.HTTP_400_BAD_REQUEST], resp.data)
